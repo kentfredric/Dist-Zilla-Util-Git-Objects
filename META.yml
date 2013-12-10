@@ -39,6 +39,9 @@ provides:
   Dist::Zilla::Util::Git::Objects::Tree:
     file: lib/Dist/Zilla/Util/Git/Objects/Tree.pm
     version: 0.001000
+  Dist::Zilla::Util::Git::Objects::Tree::Entry:
+    file: lib/Dist/Zilla/Util/Git/Objects/Tree/Entry.pm
+    version: 0.001000
 requires:
   Carp: 0
   Dist::Zilla::Util::Git::Wrapper: 0
@@ -249,6 +252,7 @@ x_Dist_Zilla:
             - lib/Dist/Zilla/Util/Git/Objects/Role/Object.pm
             - lib/Dist/Zilla/Util/Git/Objects/Tag.pm
             - lib/Dist/Zilla/Util/Git/Objects/Tree.pm
+            - lib/Dist/Zilla/Util/Git/Objects/Tree/Entry.pm
           path_translator: base64_filter
           prefix: t/00-compile
           skip: []

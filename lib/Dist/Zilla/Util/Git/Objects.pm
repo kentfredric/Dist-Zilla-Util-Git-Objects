@@ -117,6 +117,21 @@ sub get_object {
   return $self->_inflate_type( $type, $rev );
 }
 
+sub get_commit_at {
+  my ( $self, $desc ) = @_;
+  my $object = $self->get_object($desc);
+  return unless $object;
+  if ( $object->type eq 'tag' ) {
+    my (@obj) = $object->get_header_strings('object');
+    return $self->get_commit_at( shift @obj );
+  }
+  if ( $object->type eq 'commit' ) {
+    return $object;
+  }
+  require Carp;
+  Carp::croak( sprintf q[Cannot resolve a commit from %s (type = %s)], $desc, $object->type );
+}
+
 sub get_tree_at {
   my ( $self, $desc ) = @_;
   my $object = $self->get_object($desc);
@@ -128,12 +143,56 @@ sub get_tree_at {
   if ( $object->type eq 'tree' ) {
     return $object;
   }
-  if ( $object->type ne 'commit' ) {
-    require Carp;
-    Carp::croak("Cannot resolve a tree from $desc");
+  if ( $object->type eq 'commit' ) {
+    my (@trees) = $object->get_header_strings('tree');
+    return $self->get_tree_at( shift @trees );
   }
-  my (@trees) = $object->get_header_strings('tree');
-  return $self->get_tree_at( shift @trees );
+  require Carp;
+  Carp::croak( sprintf q[Cannot resolve a tree from %s (type = %s)], $desc, $object->type );
+}
+
+sub get_tree_at_path {
+  my ( $self, $desc, $path ) = @_;
+  if ( not defined $path or not length $path ) {
+    return $self->get_tree_at($desc);
+  }
+  if ( $path !~ qr[/] ) {
+    my $tree = $self->get_tree_at($desc);
+    if ( my $entry = $tree->entry_named($path) ) {
+      return $self->get_tree_at( $entry->sha1 );
+    }
+    return;
+  }
+  my (@tokens) = split qr[/], $path;
+  my $rootnode = shift @tokens;
+  my $root     = $self->get_tree_at($desc);
+  if ( my $entry = $root->entry_named( $tokens[0] ) ) {
+    return $self->get_tree_at_path( $entry->sha1, join q[/], @tokens );
+  }
+  return;
+}
+
+sub get_blob_at {
+  my ( $self, $commit, $path ) = @_;
+  my (@tokens) = split qr{/}, $path;
+  my ($filename) = pop @tokens;
+  my $tree;
+  if ( not @tokens ) {
+    ( $tree, ) = $self->get_tree_at($commit);
+  }
+  else {
+    ( $tree, ) = $self->get_tree_at_path( $commit, join q[/], @tokens );
+  }
+  return unless defined $tree;
+  if ( my ($entry) = $tree->entry_named($filename) ) {
+    my ($object) = $self->get_object( $entry->sha1 );
+    if ( $object->type ne 'blob' ) {
+      require Carp;
+      Carp::confess("Child `$filename` is not a blob");
+    }
+    return $object;
+  }
+  return;
 }
 
 __PACKAGE__->meta->make_immutable;

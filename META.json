@@ -133,6 +133,10 @@
       "Dist::Zilla::Util::Git::Objects::Tree" : {
          "file" : "lib/Dist/Zilla/Util/Git/Objects/Tree.pm",
          "version" : "0.001000"
+      },
+      "Dist::Zilla::Util::Git::Objects::Tree::Entry" : {
+         "file" : "lib/Dist/Zilla/Util/Git/Objects/Tree/Entry.pm",
+         "version" : "0.001000"
       }
    },
    "release_status" : "stable",
@@ -365,7 +369,8 @@
                      "lib/Dist/Zilla/Util/Git/Objects/Role/Headers.pm",
                      "lib/Dist/Zilla/Util/Git/Objects/Role/Object.pm",
                      "lib/Dist/Zilla/Util/Git/Objects/Tag.pm",
-                     "lib/Dist/Zilla/Util/Git/Objects/Tree.pm"
+                     "lib/Dist/Zilla/Util/Git/Objects/Tree.pm",
+                     "lib/Dist/Zilla/Util/Git/Objects/Tree/Entry.pm"
                   ],
                   "path_translator" : "base64_filter",
                   "prefix" : "t/00-compile",
