@@ -111,6 +111,45 @@ sub get_object {
   return $self->_inflate_type( $type, $rev );
 }
 
+sub get_commit_at {
+  my ( $self, $desc ) = @_;
+  my $object = $self->get_object($desc);
+  return unless $object;
+  if ( $object->type eq 'tag' ) {
+    my (@obj) = $object->get_header_strings('object');
+    return $self->get_commit_at( shift @obj );
+  }
+  if ( $object->type eq 'commit' ) {
+    return $object;
+  }
+  require Carp;
+  Carp::croak( sprintf q[Cannot resolve a commit from %s (type = %s)], $desc, $object->type );
+}
+
+sub get_tree_at {
+  my ( $self, $desc ) = @_;
+  my $object = $self->get_object($desc);
+  return unless $object;
+  if ( $object->type eq 'tag' ) {
+    my (@tags) = $object->get_header_strings('object');
+    return $self->get_tree_at( shift @tags );
+  }
+  if ( $object->type eq 'tree' ) {
+    return $object;
+  }
+  if ( $object->type eq 'commit' ) {
+    my (@trees) = $object->get_header_strings('tree');
+    return $self->get_tree_at( shift @trees );
+  }
+  require Carp;
+  Carp::croak( sprintf q[Cannot resolve a tree from %s (type = %s)], $desc, $object->type );
+}
+
+sub get_blob_at {
+  my ( $self, $commit, $path ) = @_;
+  return $self->get_object( $commit . q[:] . $path );
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 

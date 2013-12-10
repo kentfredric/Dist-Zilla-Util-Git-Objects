@@ -9,6 +9,7 @@ package Dist::Zilla::Util::Git::Objects::Tag;
 use Moose;
 
 with 'Dist::Zilla::Util::Git::Objects::Role::Object';
+with 'Dist::Zilla::Util::Git::Objects::Role::Headers';
 
 sub type { return 'tag' }
 
