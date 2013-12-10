@@ -35,7 +35,7 @@ sub _build_raw_content {
   return [ $self->git->cat_file( $self->type, $self->sha1 ) ];
 }
 
-sub pretty_content {
+sub _build_pretty_content {
   my ($self) = @_;
   return [ $self->git->cat_file( '-p', $self->sha1 ) ];
 }

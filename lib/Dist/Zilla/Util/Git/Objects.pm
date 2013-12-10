@@ -111,10 +111,29 @@ sub _rev_parse {
 sub get_object {
   my ( $self, $desc ) = @_;
   my $rev;
-  return unless defined( $rev = $self->git->rev_parse($desc) );
+  return unless defined( $rev = $self->_rev_parse($desc) );
   return unless $self->_object_exists($rev);
   my ($type) = $self->git->cat_file( '-t', $rev );
   return $self->_inflate_type( $type, $rev );
+}
+
+sub get_tree_at {
+  my ( $self, $desc ) = @_;
+  my $object = $self->get_object($desc);
+  return unless $object;
+  if ( $object->type eq 'tag' ) {
+    my (@tags) = $object->get_header_strings('object');
+    return $self->get_tree_at( shift @tags );
+  }
+  if ( $object->type eq 'tree' ) {
+    return $object;
+  }
+  if ( $object->type ne 'commit' ) {
+    require Carp;
+    Carp::croak("Cannot resolve a tree from $desc");
+  }
+  my (@trees) = $object->get_header_strings('tree');
+  return $self->get_tree_at( shift @trees );
 }
 
 __PACKAGE__->meta->make_immutable;

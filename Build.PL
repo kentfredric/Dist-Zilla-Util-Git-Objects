@@ -24,6 +24,7 @@ my %module_build_args = (
   "recursive_test_files" => 1,
   "requires" => {
     "Carp" => 0,
+    "Dist::Zilla::Util::Git::Objects::Role::Headers" => 0,
     "Dist::Zilla::Util::Git::Wrapper" => 0,
     "Module::Runtime" => 0,
     "Moose" => 0,

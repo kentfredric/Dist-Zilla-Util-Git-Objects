@@ -38,6 +38,7 @@ provides:
     version: 0.001000
 requires:
   Carp: 0
+  Dist::Zilla::Util::Git::Objects::Role::Headers: 0
   Dist::Zilla::Util::Git::Wrapper: 0
   Module::Runtime: 0
   Moose: 0
@@ -51,6 +52,8 @@ requires:
   warnings: 0
 version: 0.001000
 x_BuiltWith:
+  failures:
+    Dist::Zilla::Util::Git::Objects::Role::Headers: 'module was not found in INC'
   modules:
     Carp: 1.32
     Dist::Zilla::Plugin::Authority: 1.006
