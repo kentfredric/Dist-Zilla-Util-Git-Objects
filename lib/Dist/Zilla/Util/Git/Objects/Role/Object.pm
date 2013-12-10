@@ -12,7 +12,7 @@ BEGIN {
 
 # ABSTRACT: Base behavior for all git objects
 
-use Moose;
+use Moose::Role;
 
 has sha1           => ( isa => Str             =>, is => ro =>, required   => 1 );
 has git            => ( isa => Object          =>, is => ro =>, required   => 1 );
