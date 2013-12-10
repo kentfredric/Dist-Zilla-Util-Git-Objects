@@ -30,7 +30,7 @@ sub _build_object_headers {
       shift @lines;
       next;
     }
-    if ( $lines[0] =~ /\A(\S+)[ ].*$/ ) {
+    if ( $lines[0] =~ /\A(\S+)[ ].*z/msx ) {
       $current_header = $1;
       $headers->{$current_header} = [] unless exists $headers->{$current_header};
       push @{ $headers->{$current_header} }, $lines[0];
