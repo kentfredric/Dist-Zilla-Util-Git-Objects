@@ -25,12 +25,12 @@ sub _build_object_headers {
   my $current_header;
   while (@lines) {
     last if $lines[0] eq q[];
-    if ( $lines[0] =~ /\A[ ].*\z/msx ) {
+    if ( $lines[0] =~ /\A [ ] .* \z/msx ) {
       push @{ $headers->{$current_header} }, $lines[0];
       shift @lines;
       next;
     }
-    if ( $lines[0] =~ /\A(\S+)[ ].*z/msx ) {
+    if ( $lines[0] =~ /\A (\S+) [ ] .* \z/msx ) {
       $current_header = $1;
       $headers->{$current_header} = [] unless exists $headers->{$current_header};
       push @{ $headers->{$current_header} }, $lines[0];
