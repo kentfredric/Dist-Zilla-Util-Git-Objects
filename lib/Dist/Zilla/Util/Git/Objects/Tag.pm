@@ -16,7 +16,7 @@ use Moose;
 
 with 'Dist::Zilla::Util::Git::Objects::Role::Object';
 
-sub type { 'tag' }
+sub type { return 'tag' }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

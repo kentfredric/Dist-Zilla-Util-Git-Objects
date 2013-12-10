@@ -16,7 +16,7 @@ use Moose;
 
 with 'Dist::Zilla::Util::Git::Objects::Role::Object';
 
-sub type { 'blob' }
+sub type { return 'blob' }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

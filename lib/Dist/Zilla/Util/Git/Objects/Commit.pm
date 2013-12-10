@@ -16,7 +16,7 @@ use Moose;
 
 with 'Dist::Zilla::Util::Git::Objects::Role::Object';
 
-sub type { 'commit' }
+sub type { return 'commit' }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

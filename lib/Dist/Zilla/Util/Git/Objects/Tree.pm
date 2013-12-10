@@ -16,7 +16,7 @@ use Moose;
 
 with 'Dist::Zilla::Util::Git::Objects::Role::Object';
 
-sub type { 'tree' }
+sub type { return 'tree' }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
