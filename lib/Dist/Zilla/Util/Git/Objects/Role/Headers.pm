@@ -64,7 +64,7 @@ sub get_header {
     my ( $self, $header ) = @_;
     if ( not $self->has_header($header) ) {
         require Carp;
-        Carp::croak('This tag does not have the header `' . $header . '`' );
+        Carp::croak(qq[This object does not have the header `$header`] );
     }
     my @out;
     my $current;
