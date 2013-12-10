@@ -49,7 +49,6 @@ sub pmver {
 }
 
 eval { $v .= pmver('Carp','any version') };
-eval { $v .= pmver('Dist::Zilla::Util::Git::Objects::Role::Headers','any version') };
 eval { $v .= pmver('Dist::Zilla::Util::Git::Wrapper','any version') };
 eval { $v .= pmver('Git::Wrapper','any version') };
 eval { $v .= pmver('Module::Build','0.4203') };

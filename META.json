@@ -83,7 +83,6 @@
       "runtime" : {
          "requires" : {
             "Carp" : "0",
-            "Dist::Zilla::Util::Git::Objects::Role::Headers" : "0",
             "Dist::Zilla::Util::Git::Wrapper" : "0",
             "Module::Runtime" : "0",
             "Moose" : "0",
@@ -119,6 +118,10 @@
          "file" : "lib/Dist/Zilla/Util/Git/Objects/Commit.pm",
          "version" : "0.001000"
       },
+      "Dist::Zilla::Util::Git::Objects::Role::Headers" : {
+         "file" : "lib/Dist/Zilla/Util/Git/Objects/Role/Headers.pm",
+         "version" : "0.001000"
+      },
       "Dist::Zilla::Util::Git::Objects::Role::Object" : {
          "file" : "lib/Dist/Zilla/Util/Git/Objects/Role/Object.pm",
          "version" : "0.001000"
@@ -135,9 +138,6 @@
    "release_status" : "stable",
    "version" : "0.001000",
    "x_BuiltWith" : {
-      "failures" : {
-         "Dist::Zilla::Util::Git::Objects::Role::Headers" : "module was not found in INC"
-      },
       "modules" : {
          "Carp" : "1.32",
          "Dist::Zilla::Plugin::Authority" : "1.006",
@@ -362,6 +362,7 @@
                      "lib/Dist/Zilla/Util/Git/Objects.pm",
                      "lib/Dist/Zilla/Util/Git/Objects/Blob.pm",
                      "lib/Dist/Zilla/Util/Git/Objects/Commit.pm",
+                     "lib/Dist/Zilla/Util/Git/Objects/Role/Headers.pm",
                      "lib/Dist/Zilla/Util/Git/Objects/Role/Object.pm",
                      "lib/Dist/Zilla/Util/Git/Objects/Tag.pm",
                      "lib/Dist/Zilla/Util/Git/Objects/Tree.pm"
