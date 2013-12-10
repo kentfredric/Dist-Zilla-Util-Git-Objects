@@ -24,7 +24,7 @@ sub _build_object_headers {
   my $headers = {};
   my $current_header;
   while (@lines) {
-    last if $lines[0] =~ /\A\z/msx;
+    last if $lines[0] eq q[];
     if ( $lines[0] =~ /\A[ ].*\z/msx ) {
       push @{ $headers->{$current_header} }, $lines[0];
       shift @lines;
@@ -46,7 +46,7 @@ sub _build_tag_content {
   my ($self)  = @_;
   my (@lines) = ( @{ $self->raw_content } );
   while (@lines) {
-    last if $lines[0] =~ /\A\z/msx;
+    last if $lines[0] eq q[];
     shift @lines;
   }
   shift @lines;
