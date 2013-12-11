@@ -168,7 +168,25 @@ sub get_tree_at_path {
 
 sub get_blob_at {
   my ( $self, $commit, $path ) = @_;
-  return $self->get_object( $commit . q[:] . $path );
+  my (@tokens) = split qr{/}, $path;
+  my ($filename) = pop @tokens;
+  my $tree;
+  if ( not @tokens ) {
+    ( $tree, ) = $self->get_tree_at($commit);
+  }
+  else {
+    ( $tree, ) = $self->get_tree_at_path( $commit, join q[/], @tokens );
+  }
+  return unless defined $tree;
+  if ( my ($entry) = $tree->entry_named($filename) ) {
+    my ($object) = $self->get_object( $entry->sha1 );
+    if ( $object->type ne 'blob' ) {
+      require Carp;
+      Carp::confess("Child `$filename` is not a blob");
+    }
+    return $object;
+  }
+  return;
 }
 
 __PACKAGE__->meta->make_immutable;
