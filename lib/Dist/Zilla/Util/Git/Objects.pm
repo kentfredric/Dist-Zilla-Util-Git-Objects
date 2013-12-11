@@ -145,6 +145,27 @@ sub get_tree_at {
   Carp::croak( sprintf q[Cannot resolve a tree from %s (type = %s)], $desc, $object->type );
 }
 
+sub get_tree_at_path {
+  my ( $self, $desc, $path ) = @_;
+  if ( not defined $path or not length $path ) {
+    return $self->get_tree_at($desc);
+  }
+  if ( $path !~ qr[/] ) {
+    my $tree = $self->get_tree_at($desc);
+    if ( my $entry = $tree->entry_named($path) ) {
+      return $self->get_tree_at( $entry->sha1 );
+    }
+    return;
+  }
+  my (@tokens) = split qr[/], $path;
+  my $rootnode = shift @tokens;
+  my $root     = $self->get_tree_at($desc);
+  if ( my $entry = $root->entry_named( $tokens[0] ) ) {
+    return $self->get_tree_at_path( $entry->sha1, join q[/], @tokens );
+  }
+  return;
+}
+
 sub get_blob_at {
   my ( $self, $commit, $path ) = @_;
   return $self->get_object( $commit . q[:] . $path );
