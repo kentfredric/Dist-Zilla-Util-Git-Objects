@@ -54,13 +54,13 @@ my $objects = Dist::Zilla::Util::Git::Objects->new( git => $git );
 
 $excp = exception {
   note "Tip = $tip";
-  for my $file (qw( a b c testfile ) ) {
-      subtest "resolve blob $file" => sub {
-          my ($file_object) = $objects->get_blob_at( $tip, 'testfile' );
-          ok( defined $file_object,                                       "Tree blob is defined" );
-          ok( ref $file_object,                                           "Tree blob is ref" );
-          ok( $file_object->isa('Dist::Zilla::Util::Git::Objects::Blob'), "Tree blob isa Blob" );
-        };
+  for my $file (qw( a b c testfile )) {
+    subtest "resolve blob $file" => sub {
+      my ($file_object) = $objects->get_blob_at( $tip, 'testfile' );
+      ok( defined $file_object,                                       "Tree blob is defined" );
+      ok( ref $file_object,                                           "Tree blob is ref" );
+      ok( $file_object->isa('Dist::Zilla::Util::Git::Objects::Blob'), "Tree blob isa Blob" );
+    };
   }
   my $non_tip = $tip;
   $non_tip =~ tr/0123456789abcdef/fedcba987654321/;
